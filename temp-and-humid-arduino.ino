@@ -40,7 +40,7 @@ const int DHT11_PIN = 2;
 int pinButton = 8; // button pin
 int displayMode = 0; // 0 - normal mode, 1 - temperature mode, 2 - humidity mode
 int timer = 0;
-int maxTimer = 10;
+int maxTimer = 25;
 
 
 
@@ -54,13 +54,13 @@ void printOnLCD(float val1, float prevVal1, float val2, float prevVal2, int mode
    switch(mode) {
       case 1: // TEMP
          firstFloatChar = String(val1, 2);
-         firstLine = String("Temp:    " + firstFloatChar);
+         firstLine = String("Temper:  " + firstFloatChar);
          secondFloatChar = String(val1 - prevVal1, 2);
          secondLine = "Roznica: " + secondFloatChar;
          break;
       case 2: // HUMID
          firstFloatChar = String(val2, 2);
-         firstLine = String("Wilg:    " + firstFloatChar);
+         firstLine = String("Wilgot:  " + firstFloatChar);
          secondFloatChar = String(val2 - prevVal2, 2);
          secondLine = "Roznica: " + secondFloatChar;
          break;
@@ -81,14 +81,14 @@ void printOnLCD(float val1, float prevVal1, float val2, float prevVal2, int mode
 
 void setup() {
 
-   pinMode(pinButton, INPUT); //button pin is input
+   pinMode(pinButton, INPUT); //button pin as an input
   
    // DHT11
    Serial.begin(9600);
    dht.setup(DHT11_PIN);
 
    // LCD & I2C
-   lcd.begin(16,2);   // Inicjalizacja LCD 2x16
+   lcd.begin(16,2);   // LCD 2x16 Initialization
 
 }
 
