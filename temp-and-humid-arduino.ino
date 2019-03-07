@@ -9,17 +9,17 @@
 #include <LiquidCrystal_SR3W.h>
 
 /*
-*  LCM1602 & Arduino Uno
-*  VCC - > 5 V
-*  GND - GND
-*  SCL -> A5
-*  SDA -> A4
-*
+   LCM1602 & Arduino Uno
+   VCC - > 5 V
+   GND - GND
+   SCL -> A5
+   SDA -> A4
 
-*  DHT11:
-*  VCC -> 5V
-*  GND -> GND
-*  DAT -> DIGITAL 2
+
+   DHT11:
+   VCC -> 5V
+   GND -> GND
+   DAT -> DIGITAL 2
 */
 
 
@@ -45,72 +45,81 @@ int maxTimer = 25;
 
 
 void printOnLCD(int val1, int prevVal1, int val2, int prevVal2, int mode) {
-   
-   String firstLine  = String(15);
-   String secondLine = String(15);
-
-   switch(mode) {
-      case 1: // TEMP
-         firstLine = String("Temper:  " + val1);
-         secondLine = "Roznica: " + (val1 - prevVal1);
-         break;
-      case 2: // HUMID
-         firstLine = String("Wilgot:  " + val2);
-         secondLine = "Roznica: " + (val2 - prevVal2);
-         break;
-      default: // ALL
-         firstLine = String("Temp: " + val1);
-         secondLine = "Wilg: " + val2;
-         break;
-   }
-   lcd.clear();
-   lcd.setCursor(0, 0);
-   lcd.print(firstLine);
-   lcd.setCursor(0, 1);
-   lcd.print(secondLine);
-
+  
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  
+  switch (mode) {
+    case 1: // TEMP 
+      lcd.print("Temper:  ");
+      lcd.print(val1);
+      lcd.print((char)223);
+      lcd.print("C");
+      lcd.setCursor(0, 1);
+      lcd.print("Roznica: ");
+      lcd.print(val1 - prevVal1);
+      break;
+    case 2: // HUMID
+      lcd.print("Wilgot:  ");
+      lcd.print(val2);
+      lcd.print("%");
+      lcd.setCursor(0, 1);
+      lcd.print("Roznica: ");
+      lcd.print(val2 - prevVal2);
+      break;
+    default: // ALL
+      lcd.print("Temper: ");
+      lcd.print(val1);
+      lcd.print((char)223);
+      lcd.print("C");
+      lcd.setCursor(0, 1);
+      lcd.print("Wilgot: ");
+      lcd.print(val2);
+      lcd.print("%");
+      break;
+  }
 }
 
 
 void setup() {
 
-   pinMode(pinButton, INPUT); //button pin as an input
-  
-   // DHT11
-   Serial.begin(9600);
-   dht.setup(DHT11_PIN);
+  pinMode(pinButton, INPUT); //button pin as an input
 
-   // LCD & I2C
-   lcd.begin(16,2);   // LCD 2x16 Initialization
+  // DHT11
+  Serial.begin(9600);
+  dht.setup(DHT11_PIN);
+
+  // LCD & I2C
+  lcd.begin(16, 2);  // LCD 2x16 Initialization
 
 }
 
 void loop() {
-  
-   if (timer > maxTimer) {
 
-      prevTempValue = tempValue;
-      tempValue = dht.getTemperature();
+  if (timer > maxTimer) {
 
-      prevHumidValue = humidValue;
-      humidValue = dht.getHumidity();
+    prevTempValue = tempValue;
+    tempValue = dht.getTemperature();
 
-      printOnLCD(tempValue, prevTempValue, humidValue, prevHumidValue, displayMode);
-      timer = 0;
-   }
+    prevHumidValue = humidValue;
+    humidValue = dht.getHumidity();
 
-   int stateButton = digitalRead(pinButton);
+    printOnLCD(tempValue, prevTempValue, humidValue, prevHumidValue, displayMode);
+    timer = 0;
+  }
 
-   if (stateButton == 1) {
-      displayMode++;
-      
-      if (displayMode > MAX_MODE)
-         displayMode = 0;
-      
-      printOnLCD(tempValue, prevTempValue, humidValue, prevHumidValue, displayMode);
-   }
+  int stateButton = digitalRead(pinButton);
 
-   delay(200);
-   timer += 1;
+  if (stateButton == 1) {
+    displayMode++;
+
+    if (displayMode > MAX_MODE)
+      displayMode = 0;
+
+    printOnLCD(tempValue, prevTempValue, humidValue, prevHumidValue, displayMode);
+  }
+
+  delay(200);
+  timer += 1;
 
 }
