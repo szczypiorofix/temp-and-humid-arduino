@@ -9,5 +9,5 @@ Used parts:
 - Tact-Switch
 
 Used libraries:
-- [https://github.com/markruys/arduino-DHT]
-- (LiquidCrystal)[https://bitbucket.org/fmalpartida/new-liquidcrystal/wiki/Home]
+- [Arduino-DHT](https://github.com/markruys/arduino-DHT)
+- [LiquidCrystal](https://bitbucket.org/fmalpartida/new-liquidcrystal/wiki/Home)
