@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:\\Users\\Piotrek\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
+                "C:\\Users\\Piotrek\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.0\\**",
+                "C:\\Arduino\\tools\\**",
+                "C:\\Arduino\\hardware\\arduino\\avr\\**",
+                "C:\\workshop\\arduino\\libraries\\LiquidCrystal",
+                "C:\\workshop\\arduino\\libraries\\arduino-DHT-master"
+            ],
+            "forcedInclude": [
+                "C:\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h"
+            ],
+            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
