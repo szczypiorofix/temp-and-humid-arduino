@@ -28,47 +28,39 @@ LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Ustawienie ad
 
 DHT dht;
 
-float tempValue = 0.0f;
-float prevTempValue = 0.0f;
+int tempValue = 0;
+int prevTempValue = 0;
 
-float humidValue = 0.0f;
-float prevHumidValue = 0.0f;
+int humidValue = 0;
+int prevHumidValue = 0;
 
 
 const int DHT11_PIN = 2;
 
 int pinButton = 8; // button pin
 int displayMode = 0; // 0 - normal mode, 1 - temperature mode, 2 - humidity mode
+const int MAX_MODE = 2;
 int timer = 0;
 int maxTimer = 25;
 
 
-
-
-void printOnLCD(float val1, float prevVal1, float val2, float prevVal2, int mode) {
-   String firstFloatChar  = String(6);
-   String secondFloatChar = String(6);
+void printOnLCD(int val1, int prevVal1, int val2, int prevVal2, int mode) {
+   
    String firstLine  = String(15);
    String secondLine = String(15);
 
    switch(mode) {
       case 1: // TEMP
-         firstFloatChar = String(val1, 2);
-         firstLine = String("Temper:  " + firstFloatChar);
-         secondFloatChar = String(val1 - prevVal1, 2);
-         secondLine = "Roznica: " + secondFloatChar;
+         firstLine = String("Temper:  " + val1);
+         secondLine = "Roznica: " + (val1 - prevVal1);
          break;
       case 2: // HUMID
-         firstFloatChar = String(val2, 2);
-         firstLine = String("Wilgot:  " + firstFloatChar);
-         secondFloatChar = String(val2 - prevVal2, 2);
-         secondLine = "Roznica: " + secondFloatChar;
+         firstLine = String("Wilgot:  " + val2);
+         secondLine = "Roznica: " + (val2 - prevVal2);
          break;
       default: // ALL
-         firstFloatChar = String(val1, 2);
-         firstLine = String("Temp: " + firstFloatChar);
-         secondFloatChar = String(val2, 2);
-         secondLine = "Wilg: " + secondFloatChar;
+         firstLine = String("Temp: " + val1);
+         secondLine = "Wilg: " + val2;
          break;
    }
    lcd.clear();
@@ -76,6 +68,7 @@ void printOnLCD(float val1, float prevVal1, float val2, float prevVal2, int mode
    lcd.print(firstLine);
    lcd.setCursor(0, 1);
    lcd.print(secondLine);
+
 }
 
 
@@ -106,12 +99,14 @@ void loop() {
       timer = 0;
    }
 
-   int stateButton = digitalRead(pinButton); //read the state of the button
+   int stateButton = digitalRead(pinButton);
 
    if (stateButton == 1) {
       displayMode++;
-      if (displayMode > 2)
+      
+      if (displayMode > MAX_MODE)
          displayMode = 0;
+      
       printOnLCD(tempValue, prevTempValue, humidValue, prevHumidValue, displayMode);
    }
 
