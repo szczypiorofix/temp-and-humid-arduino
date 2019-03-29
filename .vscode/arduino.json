@@ -1,7 +1,7 @@
 {
     "board": "arduino:avr:uno",
     "port": "COM4",
-    "programmer": "",
+    "programmer": "AVRISP mkII",
     "sketch": "temp-and-humid-arduino.ino",
     "output": "obj/",
     "debugger": "c:\\Arduino\\arduino_debug.exe",
